@@ -24,7 +24,7 @@ or move this file to the correct location for the game.
 Example: D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data\CustomLevels\
 
 I'm going to continue building more prefabs into it as I can find time to.  Currently the brick wall
-(horizontal only) and the spire are the only two I've got converted from standalone tool to module.
+and the spire are the only two I've got converted from standalone tool to module.
 
 Coming attractions:
 
