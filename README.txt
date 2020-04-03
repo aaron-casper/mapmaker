@@ -17,7 +17,7 @@ of that if you don't want to, it's really simple to use.
 Installation Options:
 
 1. If you would like to rapidly grab everything, just download the .zip.
-    includes: python code and all prefab modules, the old maze generator (py) and mapmaker.exe
+    includes: python code and all prefab modules, some tools (python), and mapmaker.exe
 
 2. If you only care about the map editor, grab the .exe
 
