@@ -1,3 +1,5 @@
+# util for getting pygame event codes
+# like keyboard and mouse events
 import pygame
 pygame.init()
 # define app size
