@@ -14,6 +14,24 @@ one... all a headache.
 So, what I've done is create a front-end application that uses tool modules.  Don't worry about any
 of that if you don't want to, it's really simple to use.
 
+Installation Options:
+
+1. If you would like to rapidly grab everything, just download the .zip.
+    includes: python code and all prefab modules, the old maze generator (py) and mapmaker.exe
+
+2. If you only care about the map editor, grab the .exe
+
+3. If you want to tinker with this, fork it or pull the source.
+
+From there, if you downloaded the source, you will need several libraries to run it.
+pygame, Quaternion, and I believe numpy are required.
+
+If you only want to run the map maker, just run the .exe
+
+NOTE: if you want to capture console output (debug data) in the event of a crash, run the .exe 
+      from a command prompt.  Otherwise the console closes automatically at program exit.
+
+
 The controls are displayed at the top of the map maker window.  Important to note, if you press Esc
 to exit, it does not save the map.  In fact, it saves an empty file instead.  You ***MUST*** press
 F5 to save/exit.
