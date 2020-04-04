@@ -1,5 +1,7 @@
 # import libs
 print("importing libraries",end='')
+import os
+print('.',end='')
 import time
 print('.',end='')
 import random
@@ -16,9 +18,10 @@ import brickwall_horiz
 print('.',end='')
 import spire
 print('.')
+running = True
 
 # define app size
-SCREEN_WIDTH = 1000
+SCREEN_WIDTH = 1500
 SCREEN_HEIGHT = 1000
     
 print("initialize GUI")
@@ -46,6 +49,8 @@ print("set map filename")
 WALL_HORIZ = 1
 WALL_VERT = 2
 SPIRE = 3
+UNKNOWN = 4
+SPAWN = 5
 print('defined object types')
 
 #define tool
@@ -65,7 +70,93 @@ RED = (255,0,0)
 GREEN = (0,255,0)
 BLUE = (96,96,255)
 BLACK = (0,0,0)
+WHITE = (255,255,255)
+GREY = (128,128,128)
+ORANGE = (255,196,0)
 print("taste the rainbow")
+
+print("pondering the existential concept of a button")
+#this class blatently ripped from https://github.com/furas/python-examples/blob/master/pygame/button-hover/example-1.py
+class Button():
+
+    def __init__(self, text, x=0, y=0, width=50, height=50, command=None):
+
+        self.text = text
+        self.command = command
+        
+        self.image_normal = pygame.Surface((width, height))
+        self.image_normal.fill(BLACK)
+
+        self.image_hovered = pygame.Surface((width, height))
+        self.image_hovered.fill(RED)
+
+        self.image = self.image_normal
+        self.rect = self.image.get_rect()
+        
+        text_image = font.render(text, True, WHITE)
+        text_rect = text_image.get_rect(center = self.rect.center)
+        
+        self.image_normal.blit(text_image, text_rect)
+        self.image_hovered.blit(text_image, text_rect)
+
+        # you can't use it before `blit` 
+        self.rect.topleft = (x, y)
+
+        self.hovered = False
+        #self.clicked = False
+
+    def update(self):
+
+        if self.hovered:
+            self.image = self.image_hovered
+        else:
+            self.image = self.image_normal
+        
+    def draw(self, surface):
+
+        surface.blit(self.image, self.rect)
+
+    def handle_event(self, event):
+
+        if event.type == pygame.MOUSEMOTION:
+            self.hovered = self.rect.collidepoint(event.pos)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if self.hovered:
+                print('Clicked:', self.text)
+                if self.command:
+                    self.command()
+                if self.text == "Quit":
+                    shutDownApp()
+                if self.text == "Save":
+                    saveMap(f)
+                if self.text == "Save & Quit":
+                    f.write(XMLfooter)
+                    time.sleep(0.5)
+                    saveMap(f)
+                    time.sleep(0.5)
+                    shutDownApp()
+                if self.text == "Next Tool":
+                    return 1
+                if self.text == "Prev Tool":
+                    return 1
+
+#btnQuit = Button('Quit', 5, 0, 150, 20)
+#btnSave = Button('Save', 200, 0, 150, 20)
+#btnToolUp = Button('Next Tool', 400, 0, 150, 20)
+#btnToolDown = Button('Prev Tool', 600,0,150,20)
+#btnSaveQuit = Button('Save & Quit',800,0,150,20)
+
+# === FUNCTIONS === (lower_case names)
+    # empty
+
+# === MAIN === (lower_case names)
+print("creating buttons, now that we know what they are")
+# buttons
+btnQuit = Button('Quit', 5, 0, 150, 20)
+btnSave = Button('Save', 200, 0, 150, 20)
+btnToolUp = Button('Next Tool', 400, 0, 150, 20)
+btnToolDown = Button('Prev Tool', 600,0,150,20)
+btnSaveQuit = Button('Save & Quit',800,0,150,20)
 
 pygame.mouse.set_visible(False)
 print("hid OS mouse cursor")
@@ -87,10 +178,8 @@ print("created buffer for output")
 
 # scaling for tools
 scale = 1
-print("writing XML header")
-
+print("defining XML header")
 #headerBuffer.append('writing XML header')
-
 XMLheader = ('''<Level>
 <LevelSettings EditorVersion="0.8" UseVoting="False" CurtainMode="False" AllowExcessPlayers="True" HidePlayerLabels="False" AllowCopyMachine="True" allowModMachines="True" Environment="None">
     <DisableFire Enabled="False" Locked="False" />
@@ -109,58 +198,100 @@ XMLheader = ('''<Level>
 
 objID = random.randint(5259037513282550642,5259037513999999999)
 
-XMLfooter = ('''			<Object ID="''' + str(objID) + '''" Prefab="9001">
-			<Position x="0" y="5.0" z="0" />
-			<Data />
-		</Object>
-	</Objects>
-</Level>''')
+print("defining XML footer")
+XMLfooter = ('''</Objects></Level>''')
 
-# XML map header
+#close file out, incl XML for player spawn and footer.
+def shutDownApp ():
+    print("shutting down")
+    f.close()
+    print('closed file')
+    time.sleep(1)
+    pygame.quit()
+    print('close GUI')
+    time.sleep(0.5)
+    print('exiting')
+    quit()
+
+
+
+print("defined how to shutdown app")
+
 f = open(mapName, "w")
 f.write(XMLheader)
 # END XML map header
 headerBuffer.append('main loop start')
 
+def saveMap (f):
+    headerBuffer.append("saved")
+    f.flush()
+    os.fsync(f.fileno())
+    time.sleep(0.5)
+    print("saved " + mapName)
+
+def toolUp (toolOption):
+    headerBuffer.append("next tool")
+    toolOption = toolOption + 1
+    return toolOption
+
+def toolDown (toolOption):
+    headerBuffer.append("prev tool")
+    toolOption = toolOption - 1
+    return toolOption
+
+def mapReset (f):
+    f.close()
+    f = open(mapName, "w")
+    f.write(XMLheader)
+    objects.clear()
+    headerBuffer.append("map reset")
+  
+             
 # start the main program loop
-running = True
+
 while running == True:
-
-# clear display
-    screen.fill((255, 255, 255))
-    pygame.draw.rect(screen,BLUE,(495,495,10,10))
-    for object in objects:
-       # print(object[3])
-        if object[3] == WALL_HORIZ:
-            objX = object[1]
-            objY = object[2]
-            objScale = object[4]
-            pygame.draw.line(screen, BLACK, (objX, objY), (objX - objScale, objY))
-        if object[3] == WALL_VERT:
-            objX = object[1]
-            objY = object[2]
-            objScale = object[4]
-            pygame.draw.line(screen, BLUE, (objX, objY), (objX, objY - objScale))
-        if object[3] == SPIRE:
-            objX = object[1]
-            objY = object[2]
-            objScale = object[4]
-            pygame.draw.circle(screen,RED,[objX,objY],objScale,objScale)
-
-
-# mouse cursor
+# get mouse position
     pos = pygame.mouse.get_pos()
     mouse_x = pos[0]
     mouse_y = pos[1]
 
+# define player spawn XML
+
+    XMLplayerSpawn = ('''			<Object ID="''' + str(objID) + '''" Prefab="9001">
+			<Position x="''' + str(mouse_x - 500) +'''" y="5.0" z="''' + str(mouse_y - 500) + '''" />
+			<Data />
+		</Object>''')
+
+# clear display
+    screen.fill((255, 255, 255))
+    #pygame.draw.rect(screen,BLUE,(495,495,10,10))
+    for object in objects:
+       # print(object[3])
+        if object[3] == WALL_HORIZ:
+            objX = int(object[1])
+            objY = int(object[2])
+            objScale = object[4]
+            pygame.draw.line(screen, BLACK, (objX, objY), (int(objX - objScale), objY))
+        if object[3] == WALL_VERT:
+            objX = int(object[1])
+            objY = int(object[2])
+            objScale = object[4]
+            pygame.draw.line(screen, BLUE, (objX, objY), (objX, int(objY - objScale)))
+        if object[3] == SPIRE:
+            objX = int(object[1])
+            objY = int(object[2])
+            objScale = int(object[4])
+            pygame.draw.circle(screen,RED,[objX,objY],objScale,objScale)
+        if object[3] == SPAWN:
+            objX = int(object[1])
+            objY = int(object[2])
+            pygame.draw.rect(screen,ORANGE,(objX,objY,10,10))
+
 # catch out of bounds stuff
-    if mouse_y <= 20:
-        mouse_y = 20
+
     if scale <= 0:
         scale = 1
     
-    pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],2,2)
-
 #WIP: GUI information
     displayDelay = 0.0
     try:
@@ -169,53 +300,84 @@ while running == True:
         headerStr = ""
     headerStr = str(len(objects)) + " objects | " + headerStr
     headerBar = font.render(headerStr, True, BLACK)
-    keyTipsBar = font.render("ESC: QUIT | F1: SAVE | F2: NEXT TOOL | F3: PREV TOOL | F4: RESET | F5: SAVE & QUIT | MouseWheel: Prefab Scale" , True, YELLOW)
+    #keyTipsBar = font.render("ESC: QUIT | F1: SAVE | F2: NEXT TOOL | F3: PREV TOOL | F4: RESET | F5: SAVE & QUIT | MouseWheel: Prefab Scale" , True, YELLOW)
     pygame.draw.rect(screen,BLACK,(0,0,1000,20))
     screen.blit(headerBar,(250,25))
-    screen.blit(keyTipsBar,(5,5))
+    #screen.blit(keyTipsBar,(5,5))
     cursorInfo = font.render(str(scale), True, BLACK)
 
 # Tool/Cursor State-engine
+
     if toolOption == 0:
-        toolOption = 4
-        toolColor = GREEN
+        toolOption = 5
+        toolColor = ORANGE
+        toolName = "PLAYER_SPAWN"
         pygame.draw.rect(screen,toolColor,(mouse_x,mouse_y,scale,scale))
     if toolOption == 1:
         toolColor = BLACK
+        toolName = "WALL_H"
         pygame.draw.line(screen, toolColor, (mouse_x, mouse_y), (mouse_x - scale, mouse_y))
         screen.blit(cursorInfo,((mouse_x - 10) - scale, (mouse_y)))
     if toolOption == 2:
         toolColor = BLUE
+        toolName = "WALL_V"
         pygame.draw.line(screen, toolColor, (mouse_x, mouse_y), (mouse_x, mouse_y - scale))
         screen.blit(cursorInfo,((mouse_x), (mouse_y - 10) - scale))
     if toolOption == 3:
         toolColor = RED
+        toolName = "SPIRE"
         pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],scale,scale)
         screen.blit(cursorInfo,((mouse_x - 10) - scale, (mouse_y)))
     if toolOption == 4:
         toolColor = GREEN
+        toolName = "UNDEFINED"
         pygame.draw.rect(screen,toolColor,(mouse_x,mouse_y,scale,scale))
         screen.blit(cursorInfo,((mouse_x) + scale, (mouse_y)))
     if toolOption == 5:
+        toolColor = ORANGE
+        toolName = "PLAYER_SPAWN"
+        pygame.draw.rect(screen,toolColor,(mouse_x,mouse_y,10,10))
+        cursorInfo = font.render("playerSpawn", True, BLACK)
+        screen.blit(cursorInfo,((mouse_x -10), mouse_y))
+    if toolOption == 6:
         toolColor = BLACK
         toolOption = 1
 
-    headerBuffer.append("tool selected: " + str(toolOption) + " | " + "scale: " + str(scale) + " | X: " + str(mouse_x) + ", " + "Y: " + str(mouse_y))
+    #print(toolOption)
+
+    headerBuffer.append("tool selected: " + toolName + " | " + "scale: " + str(scale) + " | X: " + str(mouse_x - (SCREEN_WIDTH * 0.5)) + ", " + "Y: " + str(mouse_y - (SCREEN_WIDTH * 0.5)))
 # check for inputs
 
+
+    
     events = pygame.event.get()
     #textinput.update(events)
     for event in events:
          
-
-
+# GUI buttons
+        btnQuit.handle_event(event)
+        btnSave.handle_event(event)
+        btnToolUp.handle_event(event)
+        changeUp = btnToolUp.handle_event(event)
+        #print("tool up " + str(changeUp))
+        if changeUp == 1:
+            toolOption = toolUp(toolOption)
+            changeUp = 0
+            
+        btnToolDown.handle_event(event)
+        changeDn = btnToolDown.handle_event(event)
+        #print("tool up " + str(changeDn))
+        if changeDn == 1:
+            toolOption = toolDown(toolOption)
+            changeDn == 0
+        btnSaveQuit.handle_event(event)
 # inputs
 
-         whathappen = str(event.type)
-         if whathappen == "12":
-             running = False
+        whathappen = str(event.type)
+        if whathappen == "12":
+             shutDownApp()
 # mouse
-         if whathappen == "5":
+        if whathappen == "5":
              whichbutton = str(event.button)
 
              if whichbutton == "1":
@@ -226,47 +388,60 @@ while running == True:
                  if toolOption == 1:
                      #create an object ID and offset by half the area size (to center things up in-game)
                      objID = objID + 1
-                     objX = (mouse_x - 500) - (scale * 1.5)
-                     objY = mouse_y - 500
+                     objX = (mouse_x - (SCREEN_WIDTH * 0.5))
+                     objY = mouse_y - (SCREEN_WIDTH * 0.5)
                      #headerBuffer.append("placing brick wall at: " + str(objX) + ", " + str(objY))
-                     f.write(brickwall_horiz.bricklayer(objID,scale,20,objX,Y,objY))
-                     objX = objX + 500 + (scale * 1.5)
-                     objY = objY + 500
-                     objects.append([objID,objX,objY, WALL_HORIZ, scale])
+                     if mouse_y <= 20:
+                         print("not placing, in menu area")
+                     if mouse_y > 20:
+                         f.write(brickwall_horiz.bricklayer(objID,scale,30,objX,Y,objY))
+                         objX = objX + (SCREEN_WIDTH * 0.5)
+                         objY = objY + (SCREEN_WIDTH * 0.5)
+                         objects.append([objID,objX,objY, WALL_HORIZ, scale])
 
                  # brick walls (horizontal)
                  if toolOption == 2:
                      #create an object ID and offset by half the area size (to center things up in-game)
                      objID = objID + 1
-                     objX = mouse_x - 500
-                     objY = mouse_y - 500 - (scale * 1.5)
+                     objX = mouse_x - (SCREEN_WIDTH * 0.5)
+                     objY = mouse_y - (SCREEN_WIDTH * 0.5)
                      #headerBuffer.append("placing brick wall at: " + str(objX) + ", " + str(objY))
-                     f.write(brickwall_vert.bricklayer(objID,scale,20, objX,Y,objY))
-                     objX = objX + 500
-                     objY = objY + 500 + (scale * 1.5)
-                     objects.append([objID,objX,objY, WALL_VERT, scale])
+                     if mouse_y <= 20:
+                         print("not placing, in menu area")
+                     if mouse_y > 20:
+                         f.write(brickwall_vert.bricklayer(objID,scale,30,objX,Y,objY))
+                         objX = objX + (SCREEN_WIDTH * 0.5)
+                         objY = objY + (SCREEN_WIDTH * 0.5)
+                         objects.append([objID,objX,objY, WALL_VERT, scale])
                      
                  if toolOption == 3:
                      #create an object ID and offset by half the area size (to center things up in-game)
                      objID = objID + 1
-                     objX = mouse_x - 500
-                     objY = mouse_y - 500
+                     objX = mouse_x - (SCREEN_WIDTH * 0.5)
+                     objY = mouse_y - (SCREEN_WIDTH * 0.5)
                      #headerBuffer.append("placing spire at: " + str(objX) + ", " + str(objY))
-                     f.write(spire.spirebuilder(objID,scale,objX,Y,objY))
-                     objX = objX + 500
-                     objY = objY + 500
-                     objects.append([objID,objX,objY, SPIRE, scale])  
-
-                 if toolOption == 3:
+                     if mouse_y <= 20:
+                         print("not placing, in menu area")
+                     if mouse_y > 20:
+                         f.write(spire.spirebuilder(objID,scale,objX,Y,objY))
+                         objX = objX + (SCREEN_WIDTH * 0.5)
+                         objY = objY + (SCREEN_WIDTH * 0.5)
+                         objects.append([objID,objX,objY, SPIRE, scale])
+                     
+                 if toolOption == 4:
+                     #create an object ID and offset by half the area size (to center things up in-game)
+                     print("no tool")
+                     #objects.append([objID,objX,objY, SPIRE, scale])
+                 if toolOption == 5:
                      #create an object ID and offset by half the area size (to center things up in-game)
                      objID = objID + 1
-                     objX = mouse_x - 500
-                     objY = mouse_y - 500
-                     #headerBuffer.append("placing ____ at: " + str(objX) + ", " + str(objY))
-                     #f.write(spire.spirebuilder(objID,scale,objX,Y,objY))
-                     objX = objX + 500
-                     objY = objY + 500
-                     #objects.append([objID,objX,objY, SPIRE, scale])  
+                     objX = mouse_x - (SCREEN_WIDTH * 0.5)
+                     objY = mouse_y - (SCREEN_WIDTH * 0.5)
+                     f.write(XMLplayerSpawn)
+                     objX = objX + (SCREEN_WIDTH * 0.5)
+                     objY = objY + (SCREEN_WIDTH * 0.5)
+                     objects.append([objID,objX,objY, SPAWN, scale])
+                     #objects.append([objID,objX,objY, SPIRE, scale])
 
 
              if whichbutton  == "2":
@@ -285,54 +460,53 @@ while running == True:
                  #headerBuffer.append("scale down " + str(scale))
 
 # keydown
-         if whathappen == "2":
+        if whathappen == "2":
              whichkey = str(event.key)
              if whichkey == "116":
                  print("change tool")
              if whichkey == "114":
                  print("rotate tool")
              if whichkey == "283":
-                 toolOption = toolOption + 1
+                 toolOption = toolUp(toolOption)
              if whichkey == "284":
-                 toolOption = toolOption - 1
+                 toolOption = toolDown(toolOption)
              if whichkey == "27":
-                 f.close()
-                 f = open(mapName,'w')
-                 f.close()
-                 running = False
+                 shutDownApp()
              if whichkey == "282":
-                 f.close()
-                 headerBuffer.append("saved")
-                 f = open(mapName,'a')
+                 saveMap(f)
              if whichkey == "285":
-                 f.close()
-                 f = open(mapName, "w")
-                 f.write(XMLheader)
-                 headerBuffer.append("new map opened")
-                 objects.clear()
+                 mapReset(f)
              if whichkey == "286":
                  f.write(XMLfooter)
-                 headerBuffer.append("saved")
-                 running = False
+                 saveMap(f)
+                 time.sleep(0.5)
+                 shutDownApp()
             # if whichkey == "113":
             #     running = False
             #     headerBuffer.append("quit")
 
+    btnQuit.update()
+    btnSave.update()
+    btnToolUp.update()
+    btnToolDown.update()
+    btnSaveQuit.update()
 
-            
+    btnQuit.draw(screen)
+    btnSave.draw(screen)
+    btnToolUp.draw(screen)
+    btnToolDown.draw(screen)
+    btnSaveQuit.draw(screen)
+    
+    # mouse cursor
+
+    pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],2,2)
+    pygame.mouse.set_visible(False)
+    if mouse_y <= 20:
+        pygame.draw.circle(screen,GREY,[mouse_x,mouse_y],2,2)
+        pygame.mouse.set_visible(True)
+    
+
     #blit display
     pygame.display.flip()    
     time.sleep(0.05) # debug/timescale
 
-#close file out, incl XML for player spawn and footer.
-
-print("shutting down",end='')
-f.close()
-print('.',end='')
-time.sleep(1)
-print('.',end='')
-pygame.quit()
-print('.',end='')
-time.sleep(1)
-print('.',end='')
-quit()

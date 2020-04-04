@@ -4,7 +4,7 @@
  _/      _/  _/    _/  _/            _/      _/  _/    _/  _/  _/    _/        _/    _/     
 _/      _/  _/    _/  _/            _/      _/  _/    _/  _/    _/  _/_/_/_/  _/    _/      
                                                                                             
-v0.0.3
+v0.0.4
 This is still in very eary alpha, if even that.  The goal is simple, to create a prefab-placer tool.
 
 I found myself writing one-off tools to create prefab level geometry, which is fine, until you have
@@ -14,43 +14,30 @@ one... all a headache.
 So, what I've done is create a front-end application that uses tool modules.  Don't worry about any
 of that if you don't want to, it's really simple to use.
 
-Installation Options:
+The controls at the top are now mouse-clickable.  The hot-keys still work too.  As before, remember
+to save before quitting, otherwise it won't finalize the file.
 
-1. If you would like to rapidly grab everything, just download the .zip.
-    includes: python code and all prefab modules, some tools (python), and mapmaker.exe
-
-2. If you only care about the map editor, grab the .exe
-
-3. If you want to tinker with this, fork it or pull the source.
-
-From there, if you downloaded the source, you will need several libraries to run it.
-pygame, Quaternion, and I believe numpy are required.
-
-If you only want to run the map maker, just run the .exe
-
-NOTE: if you want to capture console output (debug data) in the event of a crash, run the .exe 
-      from a command prompt.  Otherwise the console closes automatically at program exit.
-
-
-The controls are displayed at the top of the map maker window.  Important to note, if you press Esc
-to exit, it does not save the map.  In fact, it saves an empty file instead.  You ***MUST*** press
-F5 to save/exit.
+Esc - Exit w/o saving
+F1 - Save to file
+F2 - Next tool/prefab
+F3 - Prev tool/prefab
+F4 - Reset (wipes everything on the map)
+F5 - Save & Quit
 
 It will save test.blv in the same location as the application "mapmaker.exe".  You will need to copy
 or move this file to the correct location for the game.
 
 Example: D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data\CustomLevels\
 
-I'm going to continue building more prefabs into it as I can find time to.  Currently the brick wall
-and the spire are the only two I've got converted from standalone tool to module.
+
 
 Coming attractions:
 
--Spires that don't look like... well, that.
+-More prefabs
+
+-More prefabs
 
 -Terrain features (mountains or smth?)
-
--More prefabs once I come up with some ideas for what they should be
 
 -And last but not least, your suggestions.
 
