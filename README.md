@@ -1,6 +1,6 @@
 MAP MAKER (or really, prefab placer) 
 -
-v0.0.4
+v0.0.45
 
 This is still in very eary alpha, if even that.  The goal is simple, to create a prefab-placer tool.
 
@@ -42,3 +42,5 @@ Coming attractions:
 -And last but not least, your suggestions.
 
 That's right, if you've read this far, I want you to suggest new ideas for prefabs, or if you feel like taking on a challenge, creating new prefabs yourself.  They're not terribly hard.  Everything in this application is written for Python 3.7/3.8.  I've tried to comment the code so that if you understand python, you should be able to make sense of it (and probably laugh at my messy code).
+
+[Instructional Video (may be outdated)](https://youtu.be/kztvYCTBSB4)
