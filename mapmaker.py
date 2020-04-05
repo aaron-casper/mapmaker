@@ -17,8 +17,10 @@ print('.',end='')
 import brickwall_horiz
 print('.',end='')
 import spire
-print('.')
+print('.',end='')
 running = True
+import small_hut
+print('.')
 
 # define app size
 SCREEN_WIDTH = 1500
@@ -49,7 +51,7 @@ print("set map filename")
 WALL_HORIZ = 1
 WALL_VERT = 2
 SPIRE = 3
-UNKNOWN = 4
+HUT = 4
 SPAWN = 5
 print('defined object types')
 
@@ -239,14 +241,13 @@ def toolDown (toolOption):
     toolOption = toolOption - 1
     return toolOption
 
-def mapReset (f, mapName):
+def mapReset (f):
     f.close()
-    objects.clear()
-    time.sleep(0.5)
     f = open(mapName, "w")
     f.write(XMLheader)
+    objects.clear()
     headerBuffer.append("map reset")
-    return f
+  
              
 # start the main program loop
 
@@ -272,12 +273,12 @@ while running == True:
             objX = int(object[1])
             objY = int(object[2])
             objScale = object[4]
-            pygame.draw.line(screen, BLACK, (objX, objY), (int(objX - objScale), objY))
+            pygame.draw.line(screen, BLACK, (objX, objY), (int(objX + objScale), objY))
         if object[3] == WALL_VERT:
             objX = int(object[1])
             objY = int(object[2])
             objScale = object[4]
-            pygame.draw.line(screen, BLUE, (objX, objY), (objX, int(objY - objScale)))
+            pygame.draw.line(screen, BLUE, (objX, objY), (objX, int(objY + objScale)))
         if object[3] == SPIRE:
             objX = int(object[1])
             objY = int(object[2])
@@ -287,7 +288,11 @@ while running == True:
             objX = int(object[1])
             objY = int(object[2])
             pygame.draw.rect(screen,ORANGE,(objX,objY,10,10))
-
+        if object[3] == HUT:
+            objX = int(object[1])
+            objY = int(object[2])
+            pygame.draw.rect(screen,GREEN,((objX - 7),(objY - 7),15,15))
+            
 # catch out of bounds stuff
 
     if scale <= 0:
@@ -317,34 +322,30 @@ while running == True:
     if toolOption == 1:
         toolColor = BLACK
         toolName = "WALL_H"
-        pygame.draw.line(screen, toolColor, (mouse_x, mouse_y), (mouse_x - scale, mouse_y))
-        if mouse_y > 20:
-            screen.blit(cursorInfo,((mouse_x - 10) - scale, (mouse_y)))
+        pygame.draw.line(screen, toolColor, (mouse_x, mouse_y), (mouse_x + scale, mouse_y))
+        screen.blit(cursorInfo,((mouse_x - 10) - scale, (mouse_y)))
     if toolOption == 2:
         toolColor = BLUE
         toolName = "WALL_V"
-        pygame.draw.line(screen, toolColor, (mouse_x, mouse_y), (mouse_x, mouse_y - scale))
-        if mouse_y > 20:
-            screen.blit(cursorInfo,((mouse_x), (mouse_y - 10) - scale))
+        pygame.draw.line(screen, toolColor, (mouse_x, mouse_y), (mouse_x, mouse_y + scale))
+        screen.blit(cursorInfo,((mouse_x), (mouse_y - 10) - scale))
     if toolOption == 3:
         toolColor = RED
         toolName = "SPIRE"
         pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],scale,scale)
-        if mouse_y > 20:
-            screen.blit(cursorInfo,((mouse_x - 10) - scale, (mouse_y)))
+        screen.blit(cursorInfo,((mouse_x - 10) - scale, (mouse_y)))
     if toolOption == 4:
         toolColor = GREEN
-        toolName = "UNDEFINED"
-        pygame.draw.rect(screen,toolColor,(mouse_x,mouse_y,scale,scale))
-        if mouse_y > 20:
-            screen.blit(cursorInfo,((mouse_x) + scale, (mouse_y)))
+        toolName = "HUT"
+        cursorInfo = font.render("prefabHut", True, BLACK)
+        pygame.draw.rect(screen,toolColor,((mouse_x - 7),(mouse_y - 7),15,15))
+        screen.blit(cursorInfo,((mouse_x) + scale, (mouse_y)))
     if toolOption == 5:
         toolColor = ORANGE
         toolName = "PLAYER_SPAWN"
         pygame.draw.rect(screen,toolColor,(mouse_x,mouse_y,10,10))
         cursorInfo = font.render("playerSpawn", True, BLACK)
-        if mouse_y > 20:
-            screen.blit(cursorInfo,((mouse_x -10), mouse_y))
+        screen.blit(cursorInfo,((mouse_x -10), mouse_y))
     if toolOption == 6:
         toolColor = BLACK
         toolOption = 1
@@ -404,7 +405,10 @@ while running == True:
                          objX = objX + (SCREEN_WIDTH * 0.5)
                          objY = objY + (SCREEN_WIDTH * 0.5)
                          objects.append([objID,objX,objY, WALL_HORIZ, scale])
-
+                         objID = objID + 9000
+                         f.flush()
+                         os.fsync(f.fileno())
+                                           
                  # brick walls (horizontal)
                  if toolOption == 2:
                      #create an object ID and offset by half the area size (to center things up in-game)
@@ -419,7 +423,10 @@ while running == True:
                          objX = objX + (SCREEN_WIDTH * 0.5)
                          objY = objY + (SCREEN_WIDTH * 0.5)
                          objects.append([objID,objX,objY, WALL_VERT, scale])
-                     
+                         objID = objID + 9000
+                         f.flush()
+                         os.fsync(f.fileno())
+                                            
                  if toolOption == 3:
                      #create an object ID and offset by half the area size (to center things up in-game)
                      objID = objID + 1
@@ -433,20 +440,40 @@ while running == True:
                          objX = objX + (SCREEN_WIDTH * 0.5)
                          objY = objY + (SCREEN_WIDTH * 0.5)
                          objects.append([objID,objX,objY, SPIRE, scale])
-                     
+                         objID = objID + 10
+                         f.flush()
+                         os.fsync(f.fileno())
+                   
                  if toolOption == 4:
                      #create an object ID and offset by half the area size (to center things up in-game)
-                     print("no tool")
+                     if mouse_y <= 20:
+                         print("not placing, in menu area")
+                     if mouse_y > 20:
+                         objID = objID + 1
+                         objX = mouse_x - (SCREEN_WIDTH * 0.5)
+                         objY = mouse_y - (SCREEN_WIDTH * 0.5)
+                         f.write(small_hut.hutbuilder(objID,objX,objY))
+                         objX = objX + (SCREEN_WIDTH * 0.5)
+                         objY = objY + (SCREEN_WIDTH * 0.5)
+                         objects.append([objID,objX,objY, HUT, scale])
+                         objID = objID + 21
+                         f.flush()
+                         os.fsync(f.fileno())
                      #objects.append([objID,objX,objY, SPIRE, scale])
                  if toolOption == 5:
-                     #create an object ID and offset by half the area size (to center things up in-game)
-                     objID = objID + 1
-                     objX = mouse_x - (SCREEN_WIDTH * 0.5)
-                     objY = mouse_y - (SCREEN_WIDTH * 0.5)
-                     f.write(XMLplayerSpawn)
-                     objX = objX + (SCREEN_WIDTH * 0.5)
-                     objY = objY + (SCREEN_WIDTH * 0.5)
-                     objects.append([objID,objX,objY, SPAWN, scale])
+                     if mouse_y <= 20:
+                         print("not placing, in menu area")
+                     if mouse_y > 20:
+                         #create an object ID and offset by half the area size (to center things up in-game)
+                         objID = objID + 1
+                         objX = mouse_x - (SCREEN_WIDTH * 0.5)
+                         objY = mouse_y - (SCREEN_WIDTH * 0.5)
+                         f.write(XMLplayerSpawn)
+                         objX = objX + (SCREEN_WIDTH * 0.5)
+                         objY = objY + (SCREEN_WIDTH * 0.5)
+                         objects.append([objID,objX,objY, SPAWN, scale])
+                         f.flush()
+                         os.fsync(f.fileno())
                      #objects.append([objID,objX,objY, SPIRE, scale])
 
 
@@ -481,7 +508,7 @@ while running == True:
              if whichkey == "282":
                  saveMap(f)
              if whichkey == "285":
-                 f = mapReset(f, mapName)
+                 mapReset(f)
              if whichkey == "286":
                  f.write(XMLfooter)
                  saveMap(f)
@@ -505,13 +532,11 @@ while running == True:
     
     # mouse cursor
 
-
+    pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],2,2)
+    pygame.mouse.set_visible(False)
     if mouse_y <= 20:
-        #pygame.draw.circle(screen,GREY,[mouse_x,mouse_y],2,2)
+        pygame.draw.circle(screen,GREY,[mouse_x,mouse_y],2,2)
         pygame.mouse.set_visible(True)
-    else:
-        pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],2,2)
-        pygame.mouse.set_visible(False)
     
 
     #blit display
