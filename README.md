@@ -1,5 +1,5 @@
-MAP MAKER (or really, prefab placer) 
-
+#MAP MAKER (or really, prefab placer) 
+-
 v0.0.4
 
 This is still in very eary alpha, if even that.  The goal is simple, to create a prefab-placer tool.
