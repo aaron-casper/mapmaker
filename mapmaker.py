@@ -239,13 +239,14 @@ def toolDown (toolOption):
     toolOption = toolOption - 1
     return toolOption
 
-def mapReset (f):
+def mapReset (f, mapName):
     f.close()
+    objects.clear()
+    time.sleep(0.5)
     f = open(mapName, "w")
     f.write(XMLheader)
-    objects.clear()
     headerBuffer.append("map reset")
-  
+    return f
              
 # start the main program loop
 
@@ -317,28 +318,33 @@ while running == True:
         toolColor = BLACK
         toolName = "WALL_H"
         pygame.draw.line(screen, toolColor, (mouse_x, mouse_y), (mouse_x - scale, mouse_y))
-        screen.blit(cursorInfo,((mouse_x - 10) - scale, (mouse_y)))
+        if mouse_y > 20:
+            screen.blit(cursorInfo,((mouse_x - 10) - scale, (mouse_y)))
     if toolOption == 2:
         toolColor = BLUE
         toolName = "WALL_V"
         pygame.draw.line(screen, toolColor, (mouse_x, mouse_y), (mouse_x, mouse_y - scale))
-        screen.blit(cursorInfo,((mouse_x), (mouse_y - 10) - scale))
+        if mouse_y > 20:
+            screen.blit(cursorInfo,((mouse_x), (mouse_y - 10) - scale))
     if toolOption == 3:
         toolColor = RED
         toolName = "SPIRE"
         pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],scale,scale)
-        screen.blit(cursorInfo,((mouse_x - 10) - scale, (mouse_y)))
+        if mouse_y > 20:
+            screen.blit(cursorInfo,((mouse_x - 10) - scale, (mouse_y)))
     if toolOption == 4:
         toolColor = GREEN
         toolName = "UNDEFINED"
         pygame.draw.rect(screen,toolColor,(mouse_x,mouse_y,scale,scale))
-        screen.blit(cursorInfo,((mouse_x) + scale, (mouse_y)))
+        if mouse_y > 20:
+            screen.blit(cursorInfo,((mouse_x) + scale, (mouse_y)))
     if toolOption == 5:
         toolColor = ORANGE
         toolName = "PLAYER_SPAWN"
         pygame.draw.rect(screen,toolColor,(mouse_x,mouse_y,10,10))
         cursorInfo = font.render("playerSpawn", True, BLACK)
-        screen.blit(cursorInfo,((mouse_x -10), mouse_y))
+        if mouse_y > 20:
+            screen.blit(cursorInfo,((mouse_x -10), mouse_y))
     if toolOption == 6:
         toolColor = BLACK
         toolOption = 1
@@ -475,7 +481,7 @@ while running == True:
              if whichkey == "282":
                  saveMap(f)
              if whichkey == "285":
-                 mapReset(f)
+                 f = mapReset(f, mapName)
              if whichkey == "286":
                  f.write(XMLfooter)
                  saveMap(f)
@@ -499,11 +505,13 @@ while running == True:
     
     # mouse cursor
 
-    pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],2,2)
-    pygame.mouse.set_visible(False)
+
     if mouse_y <= 20:
-        pygame.draw.circle(screen,GREY,[mouse_x,mouse_y],2,2)
+        #pygame.draw.circle(screen,GREY,[mouse_x,mouse_y],2,2)
         pygame.mouse.set_visible(True)
+    else:
+        pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],2,2)
+        pygame.mouse.set_visible(False)
     
 
     #blit display
