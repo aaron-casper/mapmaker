@@ -1,4 +1,4 @@
-#MAP MAKER (or really, prefab placer) 
+MAP MAKER (or really, prefab placer) 
 -
 v0.0.4
 
