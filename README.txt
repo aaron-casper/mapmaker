@@ -21,7 +21,7 @@ Esc - Exit w/o saving
 F1 - Save to file
 F2 - Next tool/prefab
 F3 - Prev tool/prefab
-F4 - Reset (wipes everything on the map)
+F4 - Reset (wipes everything on the map) (disabled until bugfix)
 F5 - Save & Quit
 
 It will save test.blv in the same location as the application "mapmaker.exe".  You will need to copy
