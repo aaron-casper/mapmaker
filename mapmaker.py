@@ -23,7 +23,7 @@ import small_hut
 print('.')
 
 # define app size
-SCREEN_WIDTH = 1500
+SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
     
 print("initialize GUI")
@@ -508,7 +508,8 @@ while running == True:
              if whichkey == "282":
                  saveMap(f)
              if whichkey == "285":
-                 mapReset(f)
+                 print("map reset broken, issue on github")
+                 #mapReset(f)
              if whichkey == "286":
                  f.write(XMLfooter)
                  saveMap(f)
