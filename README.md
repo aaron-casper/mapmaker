@@ -31,6 +31,8 @@ Example: D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data\CustomLevels\
 
 ![alt text](https://raw.githubusercontent.com/flozenstein/mapmaker/master/prefabs_destroyed.PNG "After")
 
+![alt text](https://raw.githubusercontent.com/flozenstein/mapmaker/master/editorGameComparison.PNG "Editor and Game side-by-side")
+
 Coming attractions:
 
 -More prefabs
