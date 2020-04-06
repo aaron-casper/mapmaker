@@ -48,11 +48,18 @@ That's right, if you've read this far, I want you to suggest new ideas for prefa
 [Instructional Video (may be outdated)](https://youtu.be/kztvYCTBSB4)
 
 Current prefabs:
+![alt text](https://github.com/flozenstein/mapmaker/blob/master/test.png?raw=true "Editor")
+![alt text](https://github.com/flozenstein/mapmaker/blob/master/test2.png?raw=true "in-Game")
 
 Brick wall (N/S and E/W) (scale determines length
+
 Spire/Post (scale determines height)
+
 Hut (scale does nothing)
+
 Player Spawn (scale does nothing)
+
 Hill (scale determines elevation of the hill)
+
 
 I think the cursor/marker tool for where a hill prefab has been placed might be a little too small, or the hill itself is scaled too big.  Something to work on in the future.
