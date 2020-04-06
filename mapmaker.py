@@ -20,8 +20,9 @@ import spire
 print('.',end='')
 running = True
 import small_hut
+print('.',end='')
+import terrain
 print('.')
-
 # define app size
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
@@ -53,6 +54,7 @@ WALL_VERT = 2
 SPIRE = 3
 HUT = 4
 SPAWN = 5
+HILL = 6
 print('defined object types')
 
 #define tool
@@ -60,7 +62,7 @@ toolScaleX = 1
 toolScaleY = 1
 toolOption = 1
 toolColor = (255,255,255)
-
+toolScale = 1
 print("defined tool settings")
 
 #set elevation above floor
@@ -70,11 +72,12 @@ print("defined floor")
 YELLOW = (255,255,0)
 RED = (255,0,0)
 GREEN = (0,255,0)
-BLUE = (96,96,255)
+BLUE = (32,32,255)
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 GREY = (128,128,128)
 ORANGE = (255,196,0)
+PURPLE = (255,0,255)
 print("taste the rainbow")
 
 print("pondering the existential concept of a button")
@@ -209,6 +212,7 @@ def shutDownApp ():
     f.close()
     print('closed file')
     time.sleep(1)
+  #  input('[Enter] to terminate GUI and quit')
     pygame.quit()
     print('close GUI')
     time.sleep(0.5)
@@ -242,11 +246,23 @@ def toolDown (toolOption):
     return toolOption
 
 def mapReset (f):
+    f.flush()
+    os.fsync(f.fileno())
+    print("file sync'd")
     f.close()
-    f = open(mapName, "w")
-    f.write(XMLheader)
+    print("file closed")
+    try:
+        f2 = open(mapName, "w")
+    except Exception as e:
+        print("IO Error: " + str(e))
+    print("new file opened " + str(f.closed))
+    f2.write(XMLheader)
+    print("writing XML header")
     objects.clear()
+    print("map memory cleared")
     headerBuffer.append("map reset")
+    print("all done resetting the map")
+    return f2
   
              
 # start the main program loop
@@ -272,29 +288,37 @@ while running == True:
         if object[3] == WALL_HORIZ:
             objX = int(object[1])
             objY = int(object[2])
-            objScale = object[4]
+            objScale = int(object[4] * 3)
             pygame.draw.line(screen, BLACK, (objX, objY), (int(objX + objScale), objY))
         if object[3] == WALL_VERT:
             objX = int(object[1])
             objY = int(object[2])
-            objScale = object[4]
+            objScale = int(object[4] * 3)
             pygame.draw.line(screen, BLUE, (objX, objY), (objX, int(objY + objScale)))
         if object[3] == SPIRE:
             objX = int(object[1])
             objY = int(object[2])
-            objScale = int(object[4])
+            objScale = int(object[4] * 0.1)
             pygame.draw.circle(screen,RED,[objX,objY],objScale,objScale)
         if object[3] == SPAWN:
             objX = int(object[1])
             objY = int(object[2])
-            pygame.draw.rect(screen,ORANGE,(objX,objY,10,10))
+            pygame.draw.rect(screen,ORANGE,(objX - 10,objY - 10,20,20))
         if object[3] == HUT:
             objX = int(object[1])
             objY = int(object[2])
-            pygame.draw.rect(screen,GREEN,((objX - 7),(objY - 7),15,15))
+            pygame.draw.rect(screen,GREEN,((objX - 17),(objY - 17),35,35))
+        if object[3] == HILL:
+            objX = int(object[1])
+            objY = int(object[2])
+            objScale = int(object[4])
+            redTint = int(objScale * 5)
+            blueTint = int(objScale * 5)
+            pygame.draw.rect(screen,(redTint,0,blueTint),((objX),(objY),40,40))
+            
             
 # catch out of bounds stuff
-
+    pygame.draw.circle(screen,BLACK,[int(SCREEN_WIDTH * 0.5),int(SCREEN_HEIGHT * 0.5)],1,1)
     if scale <= 0:
         scale = 1
     
@@ -310,49 +334,59 @@ while running == True:
     pygame.draw.rect(screen,BLACK,(0,0,1000,20))
     screen.blit(headerBar,(250,25))
     #screen.blit(keyTipsBar,(5,5))
-    cursorInfo = font.render(str(scale), True, BLACK)
+    
 
 # Tool/Cursor State-engine
 
     if toolOption == 0:
-        toolOption = 5
+        toolOption = 6
         toolColor = ORANGE
         toolName = "PLAYER_SPAWN"
         pygame.draw.rect(screen,toolColor,(mouse_x,mouse_y,scale,scale))
     if toolOption == 1:
         toolColor = BLACK
         toolName = "WALL_H"
-        pygame.draw.line(screen, toolColor, (mouse_x, mouse_y), (mouse_x + scale, mouse_y))
-        screen.blit(cursorInfo,((mouse_x - 10) - scale, (mouse_y)))
+        toolScale = scale * 3
+        pygame.draw.line(screen, toolColor, (mouse_x, mouse_y), (mouse_x + (toolScale), mouse_y))
+        
     if toolOption == 2:
         toolColor = BLUE
         toolName = "WALL_V"
-        pygame.draw.line(screen, toolColor, (mouse_x, mouse_y), (mouse_x, mouse_y + scale))
-        screen.blit(cursorInfo,((mouse_x), (mouse_y - 10) - scale))
+        toolScale = scale * 3
+        pygame.draw.line(screen, toolColor, (mouse_x, mouse_y), (mouse_x, mouse_y + (toolScale)))
+        
     if toolOption == 3:
         toolColor = RED
         toolName = "SPIRE"
-        pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],scale,scale)
-        screen.blit(cursorInfo,((mouse_x - 10) - scale, (mouse_y)))
+        toolScale = int(scale * 0.1)
+        pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],toolScale,toolScale)
+        
     if toolOption == 4:
         toolColor = GREEN
         toolName = "HUT"
-        cursorInfo = font.render("prefabHut", True, BLACK)
-        pygame.draw.rect(screen,toolColor,((mouse_x - 7),(mouse_y - 7),15,15))
-        screen.blit(cursorInfo,((mouse_x) + scale, (mouse_y)))
+        
+        pygame.draw.rect(screen,toolColor,((mouse_x - 17),(mouse_y - 17),35,35))
+        
     if toolOption == 5:
         toolColor = ORANGE
         toolName = "PLAYER_SPAWN"
-        pygame.draw.rect(screen,toolColor,(mouse_x,mouse_y,10,10))
-        cursorInfo = font.render("playerSpawn", True, BLACK)
-        screen.blit(cursorInfo,((mouse_x -10), mouse_y))
+        pygame.draw.rect(screen,toolColor,(mouse_x - 10,mouse_y - 10,20,20))
+        
     if toolOption == 6:
+        toolColor = PURPLE
+        toolName = "HILL (scale is elevation)"
+        if scale >= 50:
+            scale = 50
+        toolScale = round((scale * 0.1),2)
+        pygame.draw.rect(screen,toolColor,(mouse_x,mouse_y,40,40))
+        
+    if toolOption == 7:
         toolColor = BLACK
         toolOption = 1
 
     #print(toolOption)
 
-    headerBuffer.append("tool selected: " + toolName + " | " + "scale: " + str(scale) + " | X: " + str(mouse_x - (SCREEN_WIDTH * 0.5)) + ", " + "Y: " + str(mouse_y - (SCREEN_WIDTH * 0.5)))
+    headerBuffer.append("tool selected: " + toolName + " | " + "scale: " + str(toolScale) + " | X: " + str(mouse_x - (SCREEN_WIDTH * 0.5)) + ", " + "Y: " + str(mouse_y - (SCREEN_WIDTH * 0.5)))
 # check for inputs
 
 
@@ -476,6 +510,21 @@ while running == True:
                          os.fsync(f.fileno())
                      #objects.append([objID,objX,objY, SPIRE, scale])
 
+                 if toolOption == 6:
+                     if mouse_y <= 20:
+                         print("not placing, in menu area")
+                     if mouse_y > 20:
+                         #create an object ID and offset by half the area size (to center things up in-game)
+                         objID = objID + 1
+                         objX = mouse_x - (SCREEN_WIDTH * 0.5)
+                         objY = mouse_y - (SCREEN_WIDTH * 0.5)
+                         f.write(terrain.terrainplacer(objID,objX,objY,toolScale))
+                         objX = objX + (SCREEN_WIDTH * 0.5)
+                         objY = objY + (SCREEN_WIDTH * 0.5)
+                         objects.append([objID,objX,objY, HILL, scale])
+                         f.flush()
+                         os.fsync(f.fileno())
+                     #objects.append([objID,objX,objY, SPIRE, scale])
 
              if whichbutton  == "2":
                  print("middle-click")
@@ -508,8 +557,8 @@ while running == True:
              if whichkey == "282":
                  saveMap(f)
              if whichkey == "285":
-                 print("map reset broken, issue on github")
-                 #mapReset(f)
+                 #print("map reset broken, issue on github")
+                 f = mapReset(f)
              if whichkey == "286":
                  f.write(XMLfooter)
                  saveMap(f)
@@ -532,14 +581,17 @@ while running == True:
     btnSaveQuit.draw(screen)
     
     # mouse cursor
-
-    pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],2,2)
-    pygame.mouse.set_visible(False)
-    if mouse_y <= 20:
-        pygame.draw.circle(screen,GREY,[mouse_x,mouse_y],2,2)
-        pygame.mouse.set_visible(True)
     
-
+    if mouse_y <= 20:
+        #pygame.draw.circle(screen,GREY,[mouse_x,mouse_y],2,2)
+        pygame.mouse.set_visible(True)
+    if mouse_y > 20:
+        pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],2,2)
+        pygame.mouse.set_visible(False)
+        font = pygame.font.SysFont("Consolas",10)
+        cursorInfo = font.render((str(mouse_x - 500) + "x, " + str(mouse_y - 500) + "y"), True, BLACK)
+        screen.blit(cursorInfo,((mouse_x + 10), (mouse_y + 10)))
+        font = pygame.font.SysFont("Consolas",16)
     #blit display
     pygame.display.flip()    
     time.sleep(0.05) # debug/timescale
