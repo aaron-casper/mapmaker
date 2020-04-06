@@ -8,7 +8,8 @@ I found myself writing one-off tools to create prefab level geometry, which is f
 
 So, what I've done is create a front-end application that uses tool modules.  Don't worry about any of that if you don't want to, it's really simple to use.
 
-The controls at the top are now mouse-clickable.  The hot-keys still work too.  As before, remember to save before quitting, otherwise it won't finalize the file.
+The controls at the top are now mouse-clickable.  The hot-keys still work too.
+Remember to save before quitting.  It will not warn you, it will simply shut the application down and not commit the last few changes.  I'm working on this (lol).
 
 Esc - Exit w/o saving
 
