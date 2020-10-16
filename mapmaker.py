@@ -1,29 +1,51 @@
 # import libs
-print("importing libraries",end='')
+print("importing libraries")
+i = 0
+
 import os
-print('.',end='')
 import time
-print('.',end='')
 import random
-print('.')
 import pygame
+
+
 #this one didn't quite meet the need yet, still working on it
+#goal is to permit configuration of map name/title
 #import pygame_textinput
 #print('.',end='')
 
 #import tool modules
+#print a '.' for each module imported, iter i as well to give count later
+print('importing tool modules')
 import brickwall_vert
 print('.',end='')
+i = i + 1
+
 import brickwall_horiz
 print('.',end='')
+i = i + 1
+
 import spire
 print('.',end='')
-running = True
+i = i + 1
+
 import small_hut
 print('.',end='')
+i = i + 1
 import terrain
-print('.')
-# define app size
+print('.',end='')
+i = i + 1
+
+#bool to keep loop going
+running = True
+print("")
+#define version
+appVersion = 0.8
+
+#print details
+print("pyMapMaker v" + str(appVersion))
+print("loaded " + str(i) + " modules")
+
+# define app window size
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
     
@@ -33,7 +55,7 @@ try:
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     print("set screen size")
-    print('.',end='')
+    
 except Exception as e:
     print(e)
 
@@ -44,6 +66,7 @@ print("set screen title")
 font = pygame.font.SysFont("Consolas",16)
 print("set font")
 
+#todo: prompt user for filename
 mapName = "test.blv"
 print("set map filename")
 
@@ -156,17 +179,18 @@ class Button():
 
 # === MAIN === (lower_case names)
 print("creating buttons, now that we know what they are")
-# buttons
+# buttons (text/label, x, y, width, height)
 btnQuit = Button('Quit', 5, 0, 150, 20)
 btnSave = Button('Save', 200, 0, 150, 20)
 btnToolUp = Button('Next Tool', 400, 0, 150, 20)
 btnToolDown = Button('Prev Tool', 600,0,150,20)
 btnSaveQuit = Button('Save & Quit',800,0,150,20)
 
+#hide OS cursor, we will generate custom ones for each tool
 pygame.mouse.set_visible(False)
 print("hid OS mouse cursor")
 
-#instance of text-input object
+#instance of text-input object | still broken
 #textinput = pygame_textinput.TextInput()
 
 # open map file to write to
@@ -175,7 +199,7 @@ print("opened map file for writing")
 
 # table of things we've spawned
 objects = []
-print("created table of objects")
+print("created table for objects")
 
 # buffer for the window-header output text
 headerBuffer = []
@@ -298,7 +322,7 @@ while running == True:
         if object[3] == SPIRE:
             objX = int(object[1])
             objY = int(object[2])
-            objScale = int(object[4] * 0.1)
+            objScale = int(object[4] * 0.75)
             pygame.draw.circle(screen,RED,[objX,objY],objScale,objScale)
         if object[3] == SPAWN:
             objX = int(object[1])
@@ -358,7 +382,7 @@ while running == True:
     if toolOption == 3:
         toolColor = RED
         toolName = "SPIRE"
-        toolScale = int(scale * 0.1)
+        toolScale = int(scale * 0.75)
         pygame.draw.circle(screen,toolColor,[mouse_x,mouse_y],toolScale,toolScale)
         
     if toolOption == 4:
@@ -461,6 +485,7 @@ while running == True:
                          f.flush()
                          os.fsync(f.fileno())
                                             
+                #spire generator
                  if toolOption == 3:
                      #create an object ID and offset by half the area size (to center things up in-game)
                      objID = objID + 1
@@ -539,6 +564,8 @@ while running == True:
                  #headerBuffer.append("scale up " + str(scale))
              if whichbutton  == "5":
                  scale = scale - 1
+
+        
                  #headerBuffer.append("scale down " + str(scale))
 
 # keydown

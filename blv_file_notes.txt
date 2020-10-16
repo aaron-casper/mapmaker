@@ -1,0 +1,25 @@
+.blv format notes
+XML that includes the following tree:
+
+<Level>
+    <Various Settings>
+    ...
+    </Various Settings>
+    <Objects>
+        <Object ID='foo'>
+            <Position>
+            <Rotation>
+            <Scale>
+            <Data>
+                <booleans>
+                <logic>
+                <friction>
+                <mass>
+                <etc>
+        </Object>
+        <Object>
+        ...
+        </Object>
+        ...and so on
+    </Objects>
+</Level>

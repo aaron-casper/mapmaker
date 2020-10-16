@@ -68,11 +68,16 @@ def spirebuilder(id,scale,X,Y,Z):
 <G>0.4213492</G>
 <B>0.5</B>
 </Color>
-<StringArray key="lel-logic0-events">
-<String>''' + str(StringID) + '''|Transform|(0, 0, 0)|(0, 15, 0)|Lerp|WorldDirection|1|AroundWorldAxis|</String>
-<String>''' + str(StringID + 1) + '''|Repeat|Infinity</String>
-</StringArray>
+
 <Boolean key="bmt-lel-enable-physics">False</Boolean>
+<String key="lel-logic0-type">LevelStart</String>
+<Integer key="lel-logic0-id">56204</Integer>
+<StringArray key="lel-logic0-events">
+<String>33292|Transform|(0, 0, 0)|(0, 2, 0)|Instant|WorldDirection|1|AroundWorldAxis|</String>
+<String>42967|Repeat|Infinity</String>
+</StringArray>
+
+
 </Data>
 </Object>
 

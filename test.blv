@@ -1,0 +1,405 @@
+<Level>
+<LevelSettings EditorVersion="0.8" UseVoting="False" CurtainMode="False" AllowExcessPlayers="True" HidePlayerLabels="False" AllowCopyMachine="True" allowModMachines="True" Environment="None">
+    <DisableFire Enabled="False" Locked="False" />
+	<DisableExplosions Enabled="False" Locked="False" />
+	<DisableProjectiles Enabled="False" Locked="False" />
+	<ZeroG Enabled="False" Locked="False" />
+	<InfiniteAmmo Enabled="False" Locked="False" />
+	<Invincibility Enabled="False" Locked="False" />
+	<ExplosiveCannonballs Enabled="False" Locked="False" />
+	<DisableBounds Enabled="False" Locked="False" />
+	</LevelSettings>
+	<CustomData>
+	<StringArray key="requiredMods" />
+	</CustomData>
+	<Objects>
+<Object ID="5259037513677257859" Prefab="9023">
+<Position x= "28.0" y="0.0" z="-26.0"/>
+<Rotation x="0.0" y="-0.0" z="0.0" w="1.0" />
+<Scale x="4.800000000000001" y="1.6" z="4.800000000000001" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257861" Prefab="9024">
+<Position x= "28.0" y="4.800000000000001" z="-26.0"/>
+<Scale x="1.6" y="5.44" z="1.6" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+<String key="lel-logic0-type">LevelStart</String>
+<Integer key="lel-logic0-id">56204</Integer>
+<StringArray key="lel-logic0-events">
+<String>33292|Transform|(0, 0, 0)|(0, 2, 0)|Instant|WorldDirection|1|AroundWorldAxis|</String>
+<String>42967|Repeat|Infinity</String>
+</StringArray>
+
+
+</Data>
+</Object>
+
+<Object ID="5259037513677257862" Prefab="9025">
+<Position x= "28.0" y="10.8" z="-26.0"/>
+<Scale x="1.6" y="1.6" z="1.6" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257863" Prefab="9023">
+<Position x= "28.0" y="13.200000000000001" z="-26.0"/>
+<Scale x="2.4000000000000004" y="1.6" z="2.4000000000000004" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3254902</R>
+<G>0.4196078</G>
+<B>0.5019608</B>
+</Color>
+<String key="bmt-lel-name">Textured Cylinder</String>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257864" Prefab="9023">
+<Position x= "28.0" y="0.8" z="-26.0"/>
+<Scale x="0.8" y="28.0" z="0.8" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3254902</R>
+<G>0.4196078</G>
+<B>0.5019608</B>
+</Color>
+<String key="bmt-lel-name">Textured Cylinder</String>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+
+<Object ID="5259037513677257870" Prefab="9023">
+<Position x= "-35.0" y="0.0" z="-24.0"/>
+<Rotation x="0.0" y="-0.0" z="0.0" w="1.0" />
+<Scale x="4.800000000000001" y="1.6" z="4.800000000000001" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257872" Prefab="9024">
+<Position x= "-35.0" y="4.800000000000001" z="-24.0"/>
+<Scale x="1.6" y="5.44" z="1.6" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+<String key="lel-logic0-type">LevelStart</String>
+<Integer key="lel-logic0-id">56204</Integer>
+<StringArray key="lel-logic0-events">
+<String>33292|Transform|(0, 0, 0)|(0, 2, 0)|Instant|WorldDirection|1|AroundWorldAxis|</String>
+<String>42967|Repeat|Infinity</String>
+</StringArray>
+
+
+</Data>
+</Object>
+
+<Object ID="5259037513677257873" Prefab="9025">
+<Position x= "-35.0" y="10.8" z="-24.0"/>
+<Scale x="1.6" y="1.6" z="1.6" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257874" Prefab="9023">
+<Position x= "-35.0" y="13.200000000000001" z="-24.0"/>
+<Scale x="2.4000000000000004" y="1.6" z="2.4000000000000004" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3254902</R>
+<G>0.4196078</G>
+<B>0.5019608</B>
+</Color>
+<String key="bmt-lel-name">Textured Cylinder</String>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257875" Prefab="9023">
+<Position x= "-35.0" y="0.8" z="-24.0"/>
+<Scale x="0.8" y="28.0" z="0.8" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3254902</R>
+<G>0.4196078</G>
+<B>0.5019608</B>
+</Color>
+<String key="bmt-lel-name">Textured Cylinder</String>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+
+<Object ID="5259037513677257881" Prefab="9023">
+<Position x= "-23.0" y="0.0" z="40.0"/>
+<Rotation x="0.0" y="-0.0" z="0.0" w="1.0" />
+<Scale x="4.800000000000001" y="1.6" z="4.800000000000001" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257883" Prefab="9024">
+<Position x= "-23.0" y="4.800000000000001" z="40.0"/>
+<Scale x="1.6" y="5.44" z="1.6" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+<String key="lel-logic0-type">LevelStart</String>
+<Integer key="lel-logic0-id">56204</Integer>
+<StringArray key="lel-logic0-events">
+<String>33292|Transform|(0, 0, 0)|(0, 2, 0)|Instant|WorldDirection|1|AroundWorldAxis|</String>
+<String>42967|Repeat|Infinity</String>
+</StringArray>
+
+
+</Data>
+</Object>
+
+<Object ID="5259037513677257884" Prefab="9025">
+<Position x= "-23.0" y="10.8" z="40.0"/>
+<Scale x="1.6" y="1.6" z="1.6" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257885" Prefab="9023">
+<Position x= "-23.0" y="13.200000000000001" z="40.0"/>
+<Scale x="2.4000000000000004" y="1.6" z="2.4000000000000004" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3254902</R>
+<G>0.4196078</G>
+<B>0.5019608</B>
+</Color>
+<String key="bmt-lel-name">Textured Cylinder</String>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257886" Prefab="9023">
+<Position x= "-23.0" y="0.8" z="40.0"/>
+<Scale x="0.8" y="28.0" z="0.8" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3254902</R>
+<G>0.4196078</G>
+<B>0.5019608</B>
+</Color>
+<String key="bmt-lel-name">Textured Cylinder</String>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+
+<Object ID="5259037513677257892" Prefab="9023">
+<Position x= "43.0" y="0.0" z="39.0"/>
+<Rotation x="0.0" y="-0.0" z="0.0" w="1.0" />
+<Scale x="4.800000000000001" y="1.6" z="4.800000000000001" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257894" Prefab="9024">
+<Position x= "43.0" y="4.800000000000001" z="39.0"/>
+<Scale x="1.6" y="5.44" z="1.6" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+<String key="lel-logic0-type">LevelStart</String>
+<Integer key="lel-logic0-id">56204</Integer>
+<StringArray key="lel-logic0-events">
+<String>33292|Transform|(0, 0, 0)|(0, 2, 0)|Instant|WorldDirection|1|AroundWorldAxis|</String>
+<String>42967|Repeat|Infinity</String>
+</StringArray>
+
+
+</Data>
+</Object>
+
+<Object ID="5259037513677257895" Prefab="9025">
+<Position x= "43.0" y="10.8" z="39.0"/>
+<Scale x="1.6" y="1.6" z="1.6" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257896" Prefab="9023">
+<Position x= "43.0" y="13.200000000000001" z="39.0"/>
+<Scale x="2.4000000000000004" y="1.6" z="2.4000000000000004" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3254902</R>
+<G>0.4196078</G>
+<B>0.5019608</B>
+</Color>
+<String key="bmt-lel-name">Textured Cylinder</String>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257897" Prefab="9023">
+<Position x= "43.0" y="0.8" z="39.0"/>
+<Scale x="0.8" y="28.0" z="0.8" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3254902</R>
+<G>0.4196078</G>
+<B>0.5019608</B>
+</Color>
+<String key="bmt-lel-name">Textured Cylinder</String>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+
+<Object ID="5259037513677257903" Prefab="9023">
+<Position x= "-14.0" y="0.0" z="-48.0"/>
+<Rotation x="0.0" y="-0.0" z="0.0" w="1.0" />
+<Scale x="4.800000000000001" y="1.6" z="4.800000000000001" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257905" Prefab="9024">
+<Position x= "-14.0" y="4.800000000000001" z="-48.0"/>
+<Scale x="1.6" y="5.44" z="1.6" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+<String key="lel-logic0-type">LevelStart</String>
+<Integer key="lel-logic0-id">56204</Integer>
+<StringArray key="lel-logic0-events">
+<String>33292|Transform|(0, 0, 0)|(0, 2, 0)|Instant|WorldDirection|1|AroundWorldAxis|</String>
+<String>42967|Repeat|Infinity</String>
+</StringArray>
+
+
+</Data>
+</Object>
+
+<Object ID="5259037513677257906" Prefab="9025">
+<Position x= "-14.0" y="10.8" z="-48.0"/>
+<Scale x="1.6" y="1.6" z="1.6" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3272059</R>
+<G>0.4213492</G>
+<B>0.5</B>
+</Color>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257907" Prefab="9023">
+<Position x= "-14.0" y="13.200000000000001" z="-48.0"/>
+<Scale x="2.4000000000000004" y="1.6" z="2.4000000000000004" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3254902</R>
+<G>0.4196078</G>
+<B>0.5019608</B>
+</Color>
+<String key="bmt-lel-name">Textured Cylinder</String>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+<Object ID="5259037513677257908" Prefab="9023">
+<Position x= "-14.0" y="0.8" z="-48.0"/>
+<Scale x="0.8" y="28.0" z="0.8" />
+<Data>
+<Color key="bmt-colour">
+<R>0.3254902</R>
+<G>0.4196078</G>
+<B>0.5019608</B>
+</Color>
+<String key="bmt-lel-name">Textured Cylinder</String>
+<Boolean key="bmt-lel-enable-physics">False</Boolean>
+</Data>
+</Object>
+
+</Objects></Level>
